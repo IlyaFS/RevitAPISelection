@@ -31,12 +31,21 @@ namespace RevitAPISelection
 
 
             //Выбор труб на активном виде
-            List<Pipe> fInstances = new FilteredElementCollector(doc, doc.ActiveView.Id)
-                .OfCategory(BuiltInCategory.OST_PipeCurves)
+            //List<Pipe> fInstances = new FilteredElementCollector(doc, doc.ActiveView.Id)
+            //    .OfCategory(BuiltInCategory.OST_PipeCurves)
+            //    .WhereElementIsNotElementType()
+            //    .Cast<Pipe>()
+            //    .ToList();
+            //TaskDialog.Show("Количество ", fInstances.Count.ToString());
+
+            //Выбор колонн
+            List<FamilyInstance> fInstances = new FilteredElementCollector(doc, doc.ActiveView.Id)
+                .OfCategory(BuiltInCategory.OST_StructuralColumns)
                 .WhereElementIsNotElementType()
-                .Cast<Pipe>()
+                .Cast<FamilyInstance>()
                 .ToList();
             TaskDialog.Show("Количество ", fInstances.Count.ToString());
+
 
             return Result.Succeeded;
         }
