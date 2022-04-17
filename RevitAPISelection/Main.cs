@@ -18,9 +18,9 @@ namespace RevitAPISelection
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            UIApplication uiapp = commandData.Application;
-            UIDocument uidoc = uiapp.ActiveUIDocument;
-            Document doc = uidoc.Document;
+            //UIApplication uiapp = commandData.Application;
+            //UIDocument uidoc = uiapp.ActiveUIDocument;
+            //Document doc = uidoc.Document;
 
             //Выбор воздуховодов
             //List<Duct> fInstances = new FilteredElementCollector(doc, doc.ActiveView.Id)
@@ -39,14 +39,30 @@ namespace RevitAPISelection
             //TaskDialog.Show("Количество ", fInstances.Count.ToString());
 
             //Выбор колонн
-            List<FamilyInstance> fInstances = new FilteredElementCollector(doc, doc.ActiveView.Id)
-                .OfCategory(BuiltInCategory.OST_StructuralColumns)
-                .WhereElementIsNotElementType()
-                .Cast<FamilyInstance>()
-                .ToList();
-            TaskDialog.Show("Количество ", fInstances.Count.ToString());
+            //List<FamilyInstance> fInstances = new FilteredElementCollector(doc, doc.ActiveView.Id)
+            //    .OfCategory(BuiltInCategory.OST_StructuralColumns)
+            //    .WhereElementIsNotElementType()
+            //    .Cast<FamilyInstance>()
+            //    .ToList();
+            //TaskDialog.Show("Количество ", fInstances.Count.ToString());
 
+            //Выбор воздуховодов по этажам
+            var doc = commandData.Application.ActiveUIDocument.Document;
+            var levels = new FilteredElementCollector(doc)
+                  .OfClass(typeof(Level))
+                  .OfType<Level>()
+                  .ToList();
 
+            foreach (Level level in levels)
+            {
+                var ducts = new FilteredElementCollector(doc)
+                     .OfClass(typeof(Duct))
+                  .OfType<Duct>()
+                  .Where(duct => duct.get_Parameter(BuiltInParameter.RBS_START_LEVEL_PARAM).AsValueString() == level.Name)
+                  .Count();
+                TaskDialog.Show("Результат", $"Этаж: {level.Name}, \nКоличество воздуховодов: {ducts}");
+            }
+           
             return Result.Succeeded;
         }
     }
