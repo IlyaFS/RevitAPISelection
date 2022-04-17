@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Mechanical;
+using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
 using System;
@@ -21,10 +22,19 @@ namespace RevitAPISelection
             UIDocument uidoc = uiapp.ActiveUIDocument;
             Document doc = uidoc.Document;
 
-            List<Duct> fInstances = new FilteredElementCollector(doc)
-                .OfCategory(BuiltInCategory.OST_DuctCurves)
+            //Выбор воздуховодов
+            //List<Duct> fInstances = new FilteredElementCollector(doc, doc.ActiveView.Id)
+            //     .OfCategory(BuiltInCategory.OST_PipeCurves)
+            //     .WhereElementIsNotElementType()
+            //     .Cast<Duct>()
+            //     .ToList();
+
+
+            //Выбор труб на активном виде
+            List<Pipe> fInstances = new FilteredElementCollector(doc, doc.ActiveView.Id)
+                .OfCategory(BuiltInCategory.OST_PipeCurves)
                 .WhereElementIsNotElementType()
-                .Cast<Duct>()
+                .Cast<Pipe>()
                 .ToList();
             TaskDialog.Show("Количество ", fInstances.Count.ToString());
 
