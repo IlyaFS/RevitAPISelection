@@ -22,34 +22,87 @@ namespace RevitAPISelection
             UIDocument uidoc = uiapp.ActiveUIDocument;
             Document doc = uidoc.Document;
 
-            IList<Reference> selectedElementRefList = uidoc.Selection.PickObjects(ObjectType.Element, "Выберите трубы");
-            var elementList = new List<Element>();
+            var selectedRef = uidoc.Selection.PickObject(ObjectType.Element, "Выберите трубу");
+            var element = doc.GetElement(selectedRef);
 
-            double Value = 0;
-            double Sum = 0;
+            
 
-            foreach (var selectedElement in selectedElementRefList)
+
+            if (element is Pipe)
             {
-                Element element = doc.GetElement(selectedElement);
-                elementList.Add(element);
-
-                if (element is Pipe)
+                Parameter lengthParameter = element.get_Parameter(BuiltInParameter.CURVE_ELEM_LENGTH);
+               
+                if (lengthParameter.StorageType == StorageType.Double)
                 {
-                    Parameter vParameter = element.get_Parameter(BuiltInParameter.CURVE_ELEM_LENGTH);
-                    if (vParameter.StorageType == StorageType.Double)
-                    {
-                        Value = UnitUtils.ConvertFromInternalUnits(vParameter.AsDouble(), UnitTypeId.Meters);
+                    double lenght = UnitUtils.ConvertFromInternalUnits(lengthParameter.AsDouble(), UnitTypeId.Meters);
+                    double lenghtIndex = lenght * 1.1;
+
+                    using (Transaction ts = new Transaction(doc, "Set parameters"))
+                    { 
+                        ts.Start();
+                        var pipe = element as Pipe;
+                        Parameter commentParameter = pipe.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS);
+                        commentParameter.Set(lenghtIndex.ToString());
+                        ts.Commit();
                     }
-                    Sum += Value;
                 }
             }
-            TaskDialog.Show("Результат", $"Длина выбранных труб: {Sum}м");
-
-
-
-
 
             #region
+
+            //IList<Reference> selectedElementRefList = uidoc.Selection.PickObjects(ObjectType.Element, "Выберите трубы");
+            //var elementList = new List<Element>();
+
+            //foreach (var selectedElement in selectedElementRefList)
+            //{
+            //    Element element = doc.GetElement(selectedElement);
+            //    elementList.Add(element);
+
+
+
+            //var selectedRef = uidoc.Selection.PickObject(ObjectType.Element, "Выберите элемент");
+            //var selectedElement = doc.GetElement(selectedRef);
+            //if (selectedElement is FamilyInstance)
+            //{
+            //    using (Transaction ts = new Transaction(doc, "Set parameters"))
+            //    {
+            //        ts.Start();
+            //        var familyInstance = selectedElement as FamilyInstance;
+            //        Parameter commentParameter = familyInstance.LookupParameter("Comments");
+            //        commentParameter.Set("TestComment");
+
+            //        Parameter typeCommentsParameter = familyInstance.Symbol.LookupParameter("Type Comments");
+            //        typeCommentsParameter.Set("TestTypeComments");
+            //        ts.Commit();
+            //    }
+            //}
+
+
+            //IList<Reference> selectedElementRefList = uidoc.Selection.PickObjects(ObjectType.Element, "Выберите трубы");
+            //var elementList = new List<Element>();
+
+            //double Value = 0;
+            //double Sum = 0;
+
+            //foreach (var selectedElement in selectedElementRefList)
+            //{
+            //    Element element = doc.GetElement(selectedElement);
+            //    elementList.Add(element);
+
+            //    if (element is Pipe)
+            //    {
+            //        Parameter vParameter = element.get_Parameter(BuiltInParameter.CURVE_ELEM_LENGTH);
+            //        if (vParameter.StorageType == StorageType.Double)
+            //        {
+            //            Value = UnitUtils.ConvertFromInternalUnits(vParameter.AsDouble(), UnitTypeId.Meters);
+            //        }
+            //        Sum += Value;
+            //    }
+            //}
+            //TaskDialog.Show("Результат", $"Длина выбранных труб: {Sum}м");
+
+
+
             //IList<Reference> selectedElementRefList = uidoc.Selection.PickObjects(ObjectType.Element, "Выберите стены");
             //var elementList = new List<Element>();
 
