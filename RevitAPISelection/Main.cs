@@ -22,7 +22,7 @@ namespace RevitAPISelection
             UIDocument uidoc = uiapp.ActiveUIDocument;
             Document doc = uidoc.Document;
 
-            IList<Reference> selectedElementRefList = uidoc.Selection.PickObjects(ObjectType.Element, "Выберите стены");
+            IList<Reference> selectedElementRefList = uidoc.Selection.PickObjects(ObjectType.Element, "Выберите трубы");
             var elementList = new List<Element>();
 
             double Value = 0;
@@ -33,18 +33,46 @@ namespace RevitAPISelection
                 Element element = doc.GetElement(selectedElement);
                 elementList.Add(element);
 
-                if (element is Wall)
+                if (element is Pipe)
                 {
-                    Parameter vParameter = element.get_Parameter(BuiltInParameter.HOST_VOLUME_COMPUTED);
+                    Parameter vParameter = element.get_Parameter(BuiltInParameter.CURVE_ELEM_LENGTH);
                     if (vParameter.StorageType == StorageType.Double)
                     {
-                        Value = UnitUtils.ConvertFromInternalUnits(vParameter.AsDouble(), UnitTypeId.CubicMeters);
+                        Value = UnitUtils.ConvertFromInternalUnits(vParameter.AsDouble(), UnitTypeId.Meters);
                     }
                     Sum += Value;
                 }
             }
-            TaskDialog.Show("Результат", $"Объем выбранных стен: {Sum}м3");
+            TaskDialog.Show("Результат", $"Длина выбранных труб: {Sum}м");
+
+
+
+
+
             #region
+            //IList<Reference> selectedElementRefList = uidoc.Selection.PickObjects(ObjectType.Element, "Выберите стены");
+            //var elementList = new List<Element>();
+
+            //double Value = 0;
+            //double Sum = 0;
+
+            //foreach (var selectedElement in selectedElementRefList)
+            //{
+            //    Element element = doc.GetElement(selectedElement);
+            //    elementList.Add(element);
+
+            //    if (element is Wall)
+            //    {
+            //        Parameter vParameter = element.get_Parameter(BuiltInParameter.HOST_VOLUME_COMPUTED);
+            //        if (vParameter.StorageType == StorageType.Double)
+            //        {
+            //            Value = UnitUtils.ConvertFromInternalUnits(vParameter.AsDouble(), UnitTypeId.CubicMeters);
+            //        }
+            //        Sum += Value;
+            //    }
+            //}
+            //TaskDialog.Show("Результат", $"Объем выбранных стен: {Sum}м3");
+
             //Выбор воздуховодов
             //List<Duct> fInstances = new FilteredElementCollector(doc, doc.ActiveView.Id)
             //     .OfCategory(BuiltInCategory.OST_PipeCurves)

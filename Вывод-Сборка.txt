@@ -2,11 +2,9 @@
 1>------ Перестроение всех файлов начато: проект: RevitAPISelection, Конфигурация: Debug Any CPU ------
 1>C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\amd64\Microsoft.Common.CurrentVersion.targets(2301,5): warning MSB3270: несоответствие между архитектурой процессора проекта "MSIL", сборка которого выполняется, и архитектурой процессора ссылки "RevitAPI", "AMD64". Это несоответствие может привести к ошибкам во время выполнения. Рекомендуется изменить целевую архитектуру процессора для проекта с помощью диспетчера конфигураций, чтобы согласовать архитектуры процессоров для проекта и ссылок, или использовать зависимость от ссылок с архитектурой процессора, соответствующей целевой архитектуре процессора проекта.
 1>C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\amd64\Microsoft.Common.CurrentVersion.targets(2301,5): warning MSB3270: несоответствие между архитектурой процессора проекта "MSIL", сборка которого выполняется, и архитектурой процессора ссылки "RevitAPIUI", "AMD64". Это несоответствие может привести к ошибкам во время выполнения. Рекомендуется изменить целевую архитектуру процессора для проекта с помощью диспетчера конфигураций, чтобы согласовать архитектуры процессоров для проекта и ссылок, или использовать зависимость от ссылок с архитектурой процессора, соответствующей целевой архитектуре процессора проекта.
-1>C:\Users\Илья\YandexDisk\C#\_API\2\RevitAPISelection\RevitAPISelection\WallFilter.cs(15,20,15,33): warning CS0184: Данное выражение никогда не имеет указанный тип ("Curve")
 1>  RevitAPISelection -> C:\Users\Илья\YandexDisk\C#\_API\2\RevitAPISelection\RevitAPISelection\bin\Debug\RevitAPISelection.dll
-1>  C:\Users\Илья\YandexDisk\C#\_API\2\RevitAPISelection\RevitAPISelection\bin\Debug\RevitAPISelection.dll
-1>  C:\Users\Илья\YandexDisk\C#\_API\2\RevitAPISelection\RevitAPISelection\bin\Debug\RevitAPISelection.pdb
-1>  Скопировано файлов: 2.
+1>  C:\Users\Илья\YandexDisk\C#\_API\2\RevitAPISelection\RevitAPISelection\bin\Debug\AddInManager.dll
+1>  Отказано в доступе
 1>  C:\Users\Илья\YandexDisk\C#\_API\2\RevitAPISelection\RevitAPISelection\RevitAPISelection.addin
 1>  Скопировано файлов: 1.
 ========== Перестроение всех проектов: успешно: 1, с ошибками: 0, пропущено: 0 ==========
